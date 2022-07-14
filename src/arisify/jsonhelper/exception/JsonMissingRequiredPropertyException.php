@@ -14,7 +14,7 @@
  */
 declare(strict_types=1);
 
-namespace arisify\jsonhelper;
+namespace arisify\jsonhelper\exception;
 
-class JsonInvalidPropertyTypeException extends \RuntimeException{
+class JsonMissingRequiredPropertyException extends \RuntimeException{
 }

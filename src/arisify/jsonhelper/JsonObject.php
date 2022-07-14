@@ -16,11 +16,19 @@ declare(strict_types=1);
 
 namespace arisify\jsonhelper;
 
-class JsonObject{
-	public function __construct(public \stdClass $data){}
+use arisify\jsonhelper\exception\JsonMissingRequiredPropertyException;
 
-	public static function parse(string $json) : self{
-		return new JsonObject(json_decode($json, true, 512, JSON_THROW_ON_ERROR));
+class JsonObject{
+	public function __construct(public \stdClass $data, public array $required = []){
+		foreach ($this->required as $property) {
+			if (!isset($this->data->{$property})) {
+				throw new JsonMissingRequiredPropertyException("Missing $property");
+			}
+		}
+	}
+
+	public static function parse(string $json, array $required = []) : self{
+		return new JsonObject(json_decode($json, true, 512, JSON_THROW_ON_ERROR), $required);
 	}
 
 	public function dump() : string{
@@ -52,6 +60,9 @@ class JsonObject{
 	}
 
 	public function removeProperty(string $property) : bool{
+		if (in_array($property, $this->required, true)) {
+			return false;
+		}
 		if (isset($this->data->{$property})) {
 			unset($this->data->{$property});
 			return true;
