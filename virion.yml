@@ -1,0 +1,6 @@
+name: JsonHelper
+version: 0.0.1
+antigen: arisify\geometry
+api: 4.0.0
+authors: [Arisify]
+description: A Json config that help you ?
