@@ -19,11 +19,21 @@ namespace arisify\jsonhelper;
 use arisify\jsonhelper\exception\JsonMissingRequiredPropertyException;
 
 class JsonObject{
-	public function __construct(public \stdClass $data, public array $required = []){
+	public function __construct(public \stdClass $data, public \stdClass $schema){
+		/*
 		foreach ($this->required as $property) {
 			if (!isset($this->data->{$property})) {
 				throw new JsonMissingRequiredPropertyException("Missing $property");
 			}
+		}
+		foreach (get_object_vars($this->data) as $key => $object_var) {
+			if ($object_var instanceof \stdClass) {
+				$this->data->{$key} = new JsonObject($object_var);
+			}
+		}
+		*/
+		foreach ((array) $this->schema->properties as $name => $s) {
+
 		}
 	}
 

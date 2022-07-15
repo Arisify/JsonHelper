@@ -17,9 +17,15 @@ declare(strict_types=1);
 namespace arisify\jsonhelper;
 
 class JsonHelper{
-	public static function getAsObject(JsonObject $object, $key, ?\stdClass $default = null) : ?\stdClass{
+	public static function getAsObject(JsonObject $object, $key, bool $rawObjectData = false, array $required = [], ?\stdClass $default = null) : \stdClass|JsonObject|null{
 		$result = $object->getProperty($key, $default);
-		return is_null($result) || is_object($result) ? $result : (object) $result;
+		if ($result === null) {
+			return null;
+		}
+		if (!is_object($result)) {
+			$result = (object) $result;
+		}
+		return $rawObjectData ? $result : new JsonObject($result, $required);
 	}
 
 	public static function getAsInt(JsonObject $object, $key, ?int $default = null) : ?int{
