@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace arisify\jsonhelper;
 
 class JsonHelper{
-	public static function getAsObject(JsonObject $object, $key, bool $rawObjectData = false, array $required = [], ?\stdClass $default = null) : \stdClass|JsonObject|null{
+	public static function getAsObject(JsonObject $object, string $key, bool $rawObjectData = false, array $required = [], \stdClass $default = null) : \stdClass|JsonObject|null{
 		$result = $object->getProperty($key, $default);
 		if ($result === null) {
 			return null;
